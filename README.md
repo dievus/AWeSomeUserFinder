@@ -3,6 +3,14 @@ AWS IAM Username Enumerator and Password Spraying Tool in Python3
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/M4M03Q2JN)
 
+<p align="center">
+  <img src="https://github.com/dievus/AWeSomeUserFinder/blob/main/images/image1.png" />
+</p>
+
+<p align="center">
+  <img src="https://github.com/dievus/AWeSomeUserFinder/blob/main/images/image2.png" />
+</p>
+
 ## Username Enumeration
 AWeSomeUserFinder's username enumeration function utilizes Boto3, and exploits valid AWS functionality in IAM role policies to enumerate valid IAM usernames in other AWS accounts. AWS allows administrators to create allow and deny rules for external resources, which is abusable by modifying "UpdateAssumeRolePolicy" to set a deny rule for the external ARN. If the username is valid, the policy is modified, and if it is invalid, AWS responds that the principal cannot be found. In order to exploit this feature, the attacker needs:
 
