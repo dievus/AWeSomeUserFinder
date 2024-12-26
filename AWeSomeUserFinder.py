@@ -6,7 +6,7 @@ import sys
 import json
 import time
 import boto3.exceptions
-from botocore.exceptions import ClientError
+from botocore.exceptions import ClientError, EndpointConnectionError
 
 def banner():
 
@@ -84,6 +84,9 @@ def enum():
                     pass
                 else:
                     pass
+            except EndpointConnectionError:
+                print("\nSome issue occurred with your network connection. Quitting...")
+                quit()
     print('Reverting UpdateAssumeRolePolicy policy back to default deny all...')
     revert_policy_document = {
         "Version": "2012-10-17",
