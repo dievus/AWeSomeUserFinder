@@ -50,6 +50,10 @@ To password spray, run the following:
 
 The default time between spray attempts is set to two seconds to counter AWS from actively defending against the attack. Anything faster than two seconds will eventually result in error messaging.
 
+## To Do
+
+- [x] Logic to identify MFA when password spraying
+
 ## Disclaimer
 
 Always ensure that you have proper permissions to utilize any offensive attack tool, including this one. Refer to the terms and services of AWS for details on conducting penetration tests against endpoints and services hosted by AWS.
