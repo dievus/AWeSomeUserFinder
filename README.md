@@ -46,7 +46,7 @@ Required flags for password spraying:
 
 To password spray, run the following:
 
-`python3 AWeSomeUserFinder.py -s -a <account_id> -r <username_list> 
+`python3 AWeSomeUserFinder.py -s -a <account_id> -r <username_list>`
 
 ## Disclaimer
 
