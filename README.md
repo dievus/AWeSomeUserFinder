@@ -52,7 +52,7 @@ The default time between spray attempts is set to two seconds to counter AWS fro
 
 ## To Do
 
-- [x] Logic to identify MFA when password spraying
+- [x] Print to console output when account requires a password change on next login
 - [ ] Explore additional ways beyond UpdateAssumeRolePolicy to enumerate users
 
 ## Disclaimer
