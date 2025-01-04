@@ -3,12 +3,31 @@ AWS IAM Username Enumerator and Password Spraying Tool in Python3
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/M4M03Q2JN)
 
-<p align="center">
-  <img src="https://github.com/dievus/AWeSomeUserFinder/blob/main/images/image1.png" />
+<p align="left">
+  <img src="https://github.com/dievus/AWeSomeUserFinder/blob/main/images/image1.png"/>
 </p>
 
+<p align="left">
+  <img src="https://github.com/dievus/AWeSomeUserFinder/blob/main/images/image2.png"/>
+</p>
+
+## Setup
+
+In order to use the tool, the IAM user account utilized must have the following permissions attached:
+
+- "iam:CreatePolicy"
+- "iam:UpdateAssumeRolePolicy"
+- "iam:CreateRole"
+- "iam:AttachRolePolicy"
+
+An example policy is included in the files named "example_policy.json."
+
+Additionally, an AWS access key and AWS secret key are required. See this link for information on obtaining them - https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html
+
+Finally, a role is needed with an attached policy granting "UpdateAssumeRolePolicy" is needed, which also has a TrustedEntity Deny all rule for AssumeRole permissions. This can be somewhat convoluted, so there is an additional script included with the tool called, "updateassumerolepolicygenerator.py." Using an access key and secret key, along with the required permissions noted above, the correct policy and role will be generated automatically and be usable until it is manually removed. Both the new policy and role will be named "user_enumeration_policy."
+
 <p align="center">
-  <img src="https://github.com/dievus/AWeSomeUserFinder/blob/main/images/image2.png" />
+  <img src="https://github.com/dievus/AWeSomeUserFinder/blob/main/images/image3.png" />
 </p>
 
 ## Username Enumeration
