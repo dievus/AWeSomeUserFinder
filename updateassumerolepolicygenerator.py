@@ -27,7 +27,7 @@ def policy_gen(accesskey, secretkey):
         else:
             print('Some error occurred. Try again, or run manually.')
     except iam_client.exceptions.EntityAlreadyExistsException:
-        print(f'\n The necessary policy is already generated with the name {policy_name}. Quitting.')
+        print(f'\nThe necessary policy is already generated with the name {policy_name}. Quitting.')
     except ClientError as e:
         if e.response["Error"]["Code"] == "AccessDenied":
             print(f'\nThere is a permissions error with the IAM user used. Check the Github for details and try again. Quitting...')
