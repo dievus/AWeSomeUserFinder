@@ -23,7 +23,7 @@ def policy_gen(accesskey, secretkey):
             policy_document = '{"Version": "2012-10-17","Statement": [{"Effect": "Deny", "Principal": {"AWS": "*"}, "Action": ["sts:AssumeRole"]}]}'
             iam_client.create_role(RoleName=policy_name, AssumeRolePolicyDocument=policy_document)
             iam_client.attach_role_policy(RoleName=policy_name, PolicyArn=policy_arn)
-            print(f"New policy and role named {policy_name} created for use now and in the future.\nRunning this script multiple times will create multiple new roles and policies.\nUse sparingly.")
+            print(f"New policy and role named {policy_name} created for use now and in the future.")
         else:
             print('Some error occurred. Try again, or run manually.')
     except iam_client.exceptions.EntityAlreadyExistsException:
