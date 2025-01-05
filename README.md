@@ -15,6 +15,7 @@ AWS IAM Username Enumerator and Password Spraying Tool in Python3
 
 In order to use the tool, the IAM user account utilized must have the following permissions attached:
 
+- "iam:GetRole"
 - "iam:CreatePolicy"
 - "iam:UpdateAssumeRolePolicy"
 - "iam:CreateRole"
