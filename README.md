@@ -73,7 +73,8 @@ The default time between spray attempts is set to two seconds to counter AWS fro
 
 ## To Do
 
-- [x] Print to console output when account requires a password change on next login
+- [X] Print to console output when account requires a password change on next login
+- [X] Build script to automate generation of required role and policy
 - [ ] Explore additional ways beyond UpdateAssumeRolePolicy to enumerate users
 
 ## Disclaimer
