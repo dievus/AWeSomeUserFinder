@@ -60,10 +60,12 @@ AWeSomeUserFinder's username enumeration function utilizes Boto3, and exploits v
 
 Required flags for enumerating accounts:
 
-- `-f, --find` - Find valid accounts
+- `-f, --find` - Find valid accounts with the UpdateAssumeRolePolicy method
+- `-s3, --s3enum` - Find valid accounts with the S3 method
 - `-ak, --accesskey` - Access key for controlled account
 - `-sk, --secretkey` - Secret key for controlled account
-- `-rn, --rolename` - Role name controlled by attacker
+- `-rn, --rolename` - Role name controlled by attacker for UpdateAssumeRolePolicy method
+- `-b, --bucket` - Name of the bucket controlled by attacker for S3 method
 - `-r, --read` - List of possible user names to enumerate
 - `-a, --account` - Account ID for victim account
 
