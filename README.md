@@ -45,7 +45,7 @@ In order to use the tool with the S3 bucket method, you will need to create a ne
 
 - "s3:PutBucketPolicy"
 - "s3:GetBucketPolicy"
-- Resource referened to the S3 bucket created earlier.
+- ARN referenced to the S3 bucket created earlier.
 
 An example policy is included in the files named "example_s3_policy" in the example_policies directory. 
 
