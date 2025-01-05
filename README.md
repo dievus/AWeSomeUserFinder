@@ -70,9 +70,13 @@ Required flags for enumerating accounts:
 - `-r, --read` - List of possible user names to enumerate
 - `-a, --account` - Account ID for victim account
 
-To enumerate accounts, run the following:
+To enumerate accounts with UpdateAssumeRolePolicy, run the following:
 
 `python3 AWeSomeUserFinder.py -f -ak <accesskey> -sk <secretkey> -a <account_id> -r <username_list> -rn <role_name>`
+
+To enumerate accounts with the S3 method, run the following:
+
+`python3 AWeSomeUserFinder.py -ak <accesskey> -sk <secretkey> -a <account_id> -r <username_list> -s3 -b <bucket_name>`
 
 ## Password Spraying
 AWeSomeUserFinder's password spraying function attempts to authenticate through the AWS IAM console logon form, and utilizes Python's requests library. By parsing responses, it is possible to identify valid account credentials. In order to spray the console, the attacker needs:
