@@ -13,7 +13,9 @@ AWS IAM Username Enumerator and Password Spraying Tool in Python3
 
 ## Setup
 
-In order to use the tool, the IAM user account utilized must have the following permissions attached:
+### Update Assume Role Policy Method
+
+In order to use the tool with the UpdateAssumeRolePolicy method, the IAM user account utilized must have the following permissions attached:
 
 - "iam:GetRole"
 - "iam:CreatePolicy"
@@ -21,7 +23,7 @@ In order to use the tool, the IAM user account utilized must have the following 
 - "iam:CreateRole"
 - "iam:AttachRolePolicy"
 
-An example policy is included in the files named "example_policy.json" in the example_policy directory.
+An example policy is included in the files named "example_assume_role_policy.json" in the example_policies directory.
 
 Additionally, an AWS access key and AWS secret key are required. See this link for information on obtaining them - https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html
 
