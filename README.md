@@ -52,9 +52,10 @@ An example policy is included in the files named "example_s3_policy" in the exam
 Additionally, an AWS access key and AWS secret key are required. See this link for information on obtaining them - https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html
 
 ## Username Enumeration
-AWeSomeUserFinder's username enumeration function utilizes Boto3, and exploits valid AWS functionality in IAM role policies to enumerate valid IAM usernames in other AWS accounts. AWS allows administrators to create allow and deny rules for external resources, which is abusable by modifying "UpdateAssumeRolePolicy" to set a deny rule for the external ARN. If the username is valid, the policy is modified, and if it is invalid, AWS responds that the principal cannot be found. In order to exploit this feature, the attacker needs:
+AWeSomeUserFinder's username enumeration function utilizes Boto3, and exploits valid AWS functionality in service policies to enumerate valid IAM usernames in other AWS accounts. AWS allows administrators to create allow and deny rules for external resources, which is abusable by modifying "UpdateAssumeRolePolicy" in the  to set a deny rule for the external ARN, or by modifying ARN values for S3 bucket permissions. If the username is valid, the policy is modified, and if it is invalid, AWS responds that the principal cannot be found. In order to exploit this feature, the attacker needs:
 
-- Role policy that allows an IAM user account under the attacker's control to assume the role in their own AWS account
+- Role policy that allows an IAM user account under the attacker's control to assume the role in their own AWS account for UpdateAssumeRolePolicy method
+- S3 bucket policy that allows an IAM user under the attacker's control to modify bucket permissions
 - Account ID for the victim/target
 - Controlled account's Access and Secret Keys
 
@@ -96,7 +97,7 @@ The default time between spray attempts is set to two seconds to counter AWS fro
 
 - [X] Print to console output when account requires a password change on next login
 - [X] Build script to automate generation of required role and policy
-- [ ] Explore additional ways beyond UpdateAssumeRolePolicy to enumerate users
+- [X] Explore additional ways beyond UpdateAssumeRolePolicy to enumerate users
 
 ## Disclaimer
 
