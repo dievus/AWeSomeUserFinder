@@ -20,7 +20,8 @@ def bucket_check(s3_client, args):
 
 
 def revert_bucket_policy(s3_client, bucket_resource, args):
-    print('\nReverting UpdateAssumeRolePolicy policy back to default deny all...')
+    print(
+        f'\nReverting s3 bucket policy for {args.bucket} back to default deny all...')
     revert_policy_document = {"Version": "2012-10-17", "Statement": [{"Effect": "Deny", "Principal": {
         "AWS": "*"}, "Action": ["s3:DeleteObject", "s3:PutObject"], "Resource": bucket_resource}]}
     policy_document_str = json.dumps(revert_policy_document)
