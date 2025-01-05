@@ -5,6 +5,7 @@
             "Sid": "VisualEditor0",
             "Effect": "Allow",
             "Action": [
+                "iam:GetRole",
                 "iam:CreatePolicy",
                 "iam:UpdateAssumeRolePolicy",
                 "iam:CreateRole",
