@@ -24,8 +24,7 @@ def options():
     opt_parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=textwrap.dedent(
-            """Example: python3 AWeSomeConsoleUserFinder.py -a 1234567890 -f -ak <accesskey> -sk <secretkey> -r users.txt
-            python3 AWeSomeConsoleUserFinder.py -a 1234567890 -s -p Password -r users.txt
+            """Example: python3 AWeSomeConsoleUserFinder.py -a 1234567890 -f -ak <accesskey> -sk <secretkey> -r users.txt\n         python3 AWeSomeConsoleUserFinder.py -a 1234567890 -s -p Password -r users.txt
 """
         ),
     )
