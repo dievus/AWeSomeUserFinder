@@ -4,16 +4,16 @@ AWS IAM Username Enumerator and Password Spraying Tool in Python3
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/M4M03Q2JN)
 
 <p align="left">
-  <img src="https://github.com/dievus/AWeSomeUserFinder/blob/main/images/image1.png"/>
-</p>
-
-<p align="left">
   <img src="https://github.com/dievus/AWeSomeUserFinder/blob/main/images/image2.png"/>
 </p>
 
 ## Setup
 
 ### Update Assume Role Policy Method
+
+<p align="left">
+  <img src="https://github.com/dievus/AWeSomeUserFinder/blob/main/images/image5.png" />
+</p>
 
 In order to use the tool with the UpdateAssumeRolePolicy method, the IAM user account utilized must have the following permissions attached:
 
@@ -31,9 +31,25 @@ Finally, a role is needed with an attached policy granting "UpdateAssumeRolePoli
 
 Run the tool with `python3 updateassumerolepolicygenerator.py`, and enter the keys when requested.
 
-<p align="center">
+<p align="left">
   <img src="https://github.com/dievus/AWeSomeUserFinder/blob/main/images/image3.png" />
 </p>
+
+### S3 Bucket Method
+
+<p align="left">
+  <img src="https://github.com/dievus/AWeSomeUserFinder/blob/main/images/image4.png" />
+</p>
+
+In order to use the tool with the S3 bucket method, you will need to create a new, general-purpose S3 bucket. Set "Block All Public Access" to the bucket. Next, a new policy needs to be added to the AWS account and attached to the IAM user of choice. The policy must have the following permissions attached to the user:
+
+- "s3:PutBucketPolicy"
+- "s3:GetBucketPolicy"
+- Resource referened to the S3 bucket created earlier.
+
+An example policy is included in the files named "example_s3_policy" in the example_policies directory. 
+
+Additionally, an AWS access key and AWS secret key are required. See this link for information on obtaining them - https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html
 
 ## Username Enumeration
 AWeSomeUserFinder's username enumeration function utilizes Boto3, and exploits valid AWS functionality in IAM role policies to enumerate valid IAM usernames in other AWS accounts. AWS allows administrators to create allow and deny rules for external resources, which is abusable by modifying "UpdateAssumeRolePolicy" to set a deny rule for the external ARN. If the username is valid, the policy is modified, and if it is invalid, AWS responds that the principal cannot be found. In order to exploit this feature, the attacker needs:
