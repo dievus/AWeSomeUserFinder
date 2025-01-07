@@ -1,7 +1,7 @@
 import argparse
 import textwrap
 import sys
-from functions.assumerole import role_enum
+from functions.assumerole import user_enum
 from functions.banner import *
 from functions.s3 import bucket_enum
 from functions.spray import spray
@@ -54,7 +54,7 @@ if __name__ == "__main__":
         banner()
         options()
         if args.find:
-            role_enum(args)
+            user_enum(args)
         elif args.s3enum:
             bucket_enum(args)
         elif args.spray:
