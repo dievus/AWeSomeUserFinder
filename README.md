@@ -9,7 +9,7 @@ AWS IAM Username Enumerator and Password Spraying Tool in Python3
 
 ## Setup
 
-### Update Assume Role Policy Method
+### Update IAM Assume Role Policy Method
 
 <p align="left">
   <img src="https://github.com/dievus/AWeSomeUserFinder/blob/main/images/image5.png" />
@@ -51,11 +51,26 @@ An example policy is included in the files named "example_s3_policy" in the exam
 
 Additionally, an AWS access key and AWS secret key are required. See this link for information on obtaining them - https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html
 
+### SNS Method
+
+<p align="left">
+  <img src="https://github.com/dievus/AWeSomeUserFinder/blob/main/images/image6.png" />
+</p>
+
+In order to use the tool with the SNS method, you will need to create a new SNS topic. Set the type of topic to Standard, provide a unique name, and choose Basic Access policies. The following will be required when using the method: 
+
+- ARN referenced to the SNS topic created earlier.
+- The default SNS policy is what is used in the script - Do not change it in the topic settings
+
+Additionally, an AWS access key and AWS secret key are required. See this link for information on obtaining them - https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html
+
+
 ## Username Enumeration
 AWeSomeUserFinder's username enumeration function utilizes Boto3, and exploits valid AWS functionality in service policies to enumerate valid IAM usernames in other AWS accounts. AWS allows administrators to create allow and deny rules for external resources, which is abusable by modifying "UpdateAssumeRolePolicy" in the  to set a deny rule for the external ARN, or by modifying ARN values for S3 bucket permissions. If the username is valid, the policy is modified, and if it is invalid, AWS responds that the principal cannot be found. In order to exploit this feature, the attacker needs:
 
-- Role policy that allows an IAM user account under the attacker's control to assume the role in their own AWS account for UpdateAssumeRolePolicy method
-- S3 bucket policy that allows an IAM user under the attacker's control to modify bucket permissions
+- Role policy that allows an IAM user account under the attacker's control to assume the role in their own AWS account for UpdateAssumeRolePolicy method, or
+- S3 bucket policy that allows an IAM user under the attacker's control to modify bucket permissions, or
+- SNS topic that allows an IAm user under the attacker's control to modify topic permissions
 - Account ID for the victim/target
 - Controlled account's Access and Secret Keys
 
