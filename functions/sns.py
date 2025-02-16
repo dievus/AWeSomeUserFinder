@@ -50,7 +50,7 @@ def revert_to_default_policy(args, sns_client, account_id):
             AttributeName='Policy',
             AttributeValue=new_policy
         )
-
+        print(f'\nReverting SNS policy for {args.topicarn}...')
         print(
             f"Policy reverted successfully.")
 
@@ -81,6 +81,9 @@ def confirm_topic(args, sns_client, account_id):
         )
         if topic_check:
             sns_enum(args, sns_client, account_id)
+    except ParamValidationError:
+        print('Some issue occurred with the Topic ARN. It may not have been included here. Try again. Quitting...')
+        quit()
     except Exception as e:
         if e.response['Error']['Code'] == 'NotFound' in str(e):
             print('Topic does not exist. Quitting...')
