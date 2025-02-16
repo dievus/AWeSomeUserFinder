@@ -204,15 +204,20 @@ def sns_enum(args, sns_client, account_id):
                 raise
         revert_to_default_policy(args, sns_client, account_id)
         print(f"\n{found_users} valid IAM usernames found. Quitting...")
+    except FileNotFoundError:
+        print('Wordlist is invalid. Try again with a valid wordlist.')
+        quit()
     except Exception as e:
         print(e)
-        if e.resposne['Error']['Code'] == 'InvalidParameter' in str(e):
+        if e.response['Error']['Code'] == 'InvalidParameter' in str(e):
             if args.region:
                 print('The region for SNS is likely incorrect. Check and try again.')
                 quit()
             else:
                 print('Region is likely missing. Include a region and try again.')
                 quit()
+        else:
+            print(f'Some error occurred that is unhandled: {e}')
 
 
 def sns_handler(args):
