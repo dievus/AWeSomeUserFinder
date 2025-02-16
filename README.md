@@ -61,22 +61,28 @@ AWeSomeUserFinder's username enumeration function utilizes Boto3, and exploits v
 
 Required flags for enumerating accounts:
 
-- `-f, --find` - Find valid accounts with the UpdateAssumeRolePolicy method
+- `-i, --iam` - Find valid accounts with the IAM UpdateAssumeRolePolicy method
 - `-s3, --s3enum` - Find valid accounts with the S3 method
+- `-sns, --snsenum` - Find valid accounts with the SNS method
 - `-ak, --accesskey` - Access key for controlled account
 - `-sk, --secretkey` - Secret key for controlled account
 - `-rn, --rolename` - Role name controlled by attacker for UpdateAssumeRolePolicy method
 - `-b, --bucket` - Name of the bucket controlled by attacker for S3 method
-- `-r, --read` - List of possible user names to enumerate
+- `-rf, --read` - List of possible user names to enumerate
+- `-r, --region` - Specifies a region to use (SNS method only)
 - `-a, --account` - Account ID for victim account
 
-To enumerate accounts with UpdateAssumeRolePolicy, run the following:
+To enumerate accounts with IAM UpdateAssumeRolePolicy, run the following:
 
-`python3 AWeSomeUserFinder.py -f -ak <accesskey> -sk <secretkey> -a <account_id> -r <username_list> -rn <role_name>`
+`python3 AWeSomeUserFinder.py -f -ak <accesskey> -sk <secretkey> -a <account_id> -rf <username_list> -rn <role_name>`
 
 To enumerate accounts with the S3 method, run the following:
 
-`python3 AWeSomeUserFinder.py -ak <accesskey> -sk <secretkey> -a <account_id> -r <username_list> -s3 -b <bucket_name>`
+`python3 AWeSomeUserFinder.py -ak <accesskey> -sk <secretkey> -a <account_id> -rf <username_list> -s3 -b <bucket_name>`
+
+To enumerate accounts with the SNS method, run the following:
+
+`python3 AWeSomeUserFinder.py -ak <accesskey> -sk <secretkey> -a <account_id> -rf <username_list> -sns -r <region>`
 
 ## Password Spraying
 AWeSomeUserFinder's password spraying function attempts to authenticate through the AWS IAM console logon form, and utilizes Python's requests library. By parsing responses, it is possible to identify valid account credentials. In order to spray the console, the attacker needs:
