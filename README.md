@@ -59,6 +59,7 @@ Additionally, an AWS access key and AWS secret key are required. See this link f
 
 In order to use the tool with the SNS method, you will need to create a new SNS topic. Set the type of topic to Standard, provide a unique name, and choose Basic Access policies. The following will be required when using the method: 
 
+- AmazonSNSFullAccess permission policy 
 - ARN referenced to the SNS topic created earlier.
 - The default SNS policy is what is used in the script - Do not change it in the topic settings
 
