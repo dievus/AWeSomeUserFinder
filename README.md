@@ -100,7 +100,7 @@ To enumerate accounts with the SNS method, run the following:
 
 `python3 AWeSomeUserFinder.py -ak <accesskey> -sk <secretkey> -a <account_id> -rf <username_list> -sns -r <region>`
 
-## Password Spraying
+## Host-Only Password Spraying
 AWeSomeUserFinder's password spraying function attempts to authenticate through the AWS IAM console logon form, and utilizes Python's requests library. By parsing responses, it is possible to identify valid account credentials. In order to spray the console, the attacker needs:
 
 - Account ID for the victim/target
@@ -110,12 +110,39 @@ Required flags for password spraying:
 
 - `-s, --spray` - Required flag for password spraying
 - `-a, --account` - Account ID for victim account
-- `-r, --read` - List of usernames to password spray
+- `-rf, --read` - List of usernames to password spray
 - `-t, --timeout` - Optional flag to set a pause between each attempt (default - 2 seconds)
 
 To password spray, run the following:
 
-`python3 AWeSomeUserFinder.py -s -a <account_id> -r <username_list>`
+`python3 AWeSomeUserFinder.py -s -a <account_id> -rf <username_list> -p <password>`
+
+The default time between spray attempts is set to two seconds to counter AWS from actively defending against the attack. Anything faster than two seconds will eventually result in error messaging.
+
+## EC2 Rotation Password Spraying
+AWeSomeUserFinder's EC2 password spraying function utilizes one more more free-tier EC2 instances to authenticate through the AWS IAM console logon form, and utilizes Paramiko and Curl. By parsing responses, it is possible to identify valid account credentials. In order to spray the console, the attacker needs:
+
+- Account ID for the victim/target
+- List of possible or confirmed IAM account names
+- One or more Ubuntu EC2 instances with:
+  - The same SSH key saved locally
+  - Port 22 open to your public IP address
+  - List of EC2 public IP addresses saved to local file
+
+Required flags for password spraying:
+
+- `-ssh, --ssh` - Required flag for password spraying via EC2
+- `-a, --account` - Account ID for victim account
+- `-rf, --read` - List of usernames to password spray
+- `-u, --username` - SSH username for EC2 instances (usually ubuntu)
+- `-k, --keyfile` - SSH keyfile for authentication
+- `-if, --ipfile` - Text file with EC2 public IP address(es)
+- `-port, --port` - Open SSH port on EC2 instasnce(s)
+- `-t, --timeout` - Optional flag to set a pause between each attempt (default - 2 seconds)
+- 
+To password spray, run the following:
+
+`python3 AWeSomeUserFinder.py --ssh -a <account_id> -p <password> -port <ssh_port> -u <ssh_username> -k <key_file> -if <ec2_ip_address_file> -rf <username_list>
 
 The default time between spray attempts is set to two seconds to counter AWS from actively defending against the attack. Anything faster than two seconds will eventually result in error messaging.
 
@@ -124,7 +151,7 @@ The default time between spray attempts is set to two seconds to counter AWS fro
 - [X] Print to console output when account requires a password change on next login
 - [X] Build script to automate generation of required role and policy
 - [X] Explore additional ways beyond UpdateAssumeRolePolicy to enumerate users
-
+- [X] Implement IP rotation utilizing EC2 instances
 ## Disclaimer
 
 Always ensure that you have proper permissions to utilize any offensive attack tool, including this one. Refer to the terms and services of AWS for details on conducting penetration tests against endpoints and services hosted by AWS.
