@@ -6,6 +6,7 @@ from functions.banner import *
 from functions.s3 import bucket_enum
 from functions.sns import sns_handler
 from functions.spray import spray
+from functions.ssh_spray import ssh_spray
 
 
 def options():
@@ -16,66 +17,50 @@ def options():
 """
         ),
     )
-    requiredArgs = opt_parser.add_argument_group(
-        'Required Enumeration Arguments')
-    snsArgs = opt_parser.add_argument_group(
-        'SNS Enumeration Method Required Arguments')
-    iamArgs = opt_parser.add_argument_group(
-        'IAM UpdateAssumeRolePolicy Required Arguments')
-    s3Args = opt_parser.add_argument_group(
-        'S3 Enumeration Method Required Arguments')
-    sprayArgs = opt_parser.add_argument_group(
-        'Password Spraying Required Arguments')
+ # Argument groups
+    requiredArgs = opt_parser.add_argument_group('Required Enumeration Arguments')
+    snsArgs = opt_parser.add_argument_group('SNS Enumeration Method Required Arguments')
+    iamArgs = opt_parser.add_argument_group('IAM UpdateAssumeRolePolicy Required Arguments')
+    s3Args = opt_parser.add_argument_group('S3 Enumeration Method Required Arguments')
+    sprayArgs = opt_parser.add_argument_group('Password Spraying Required Arguments')
+    sshSprayArgs = opt_parser.add_argument_group('Password Spraying via EC2 IP Rotation')
     optionalArgs = opt_parser.add_argument_group('Optional Arguments')
-    optionalArgs.add_argument(
-        "-t", "--timeout", help="Set pause time between password spraying attempts. Default - 2 seconds")
-    optionalArgs.add_argument(
-        "-v", "--verbose", help="Prints output verbosely", action="store_true"
-    )
-    requiredArgs.add_argument(
-        "-a", "--account", help="AWS account to check for IAM users")
-    requiredArgs.add_argument(
-        "-rf", "--read", help="Reads usernames from a file to test")
-    requiredArgs.add_argument("-ak", "--accesskey",
-                              help="Access key for enumerating users")
-    requiredArgs.add_argument("-sk", "--secretkey",
-                              help="Secret key for enumerating users")
-    snsArgs.add_argument(
-        "-sns", "--snsenum", help="Uses SNS policy modification for enumeration", action="store_true"
-    )
-    snsArgs.add_argument(
-        "-ta", "--topicarn", help="Topic Arn to modify"
-    )
-    snsArgs.add_argument(
-        "-r", "--region", help="Specify a region to use with SNS enumeration"
-    )
-    iamArgs.add_argument(
-        "-i", "--iam", help="Uses IAM policy modification for enumeration", action="store_true")
-    iamArgs.add_argument(
-        "-rn", "--rolename", help="Role name to add to the assume policy document")
-    s3Args.add_argument(
-        "-s3", "--s3enum", help="Uses s3 bucket policy modification for enumeration", action="store_true")
-    s3Args.add_argument(
-        "-b", "--bucket", help="Bucket name to use for s3 policy")
-    # opt_parser.add_argument(
-    #     "-sns", "--snsenum", help="Uses SNS policy modification for enumeration", action="store_true"
-    # )
-    # opt_parser.add_argument(
-    #     "-ta", "--topicarn", help="Topic Arn to modify"
-    # )
-    # opt_parser.add_argument(
-    #     "-r", "--region", help="Specify a region to use with SNS enumeration"
-    # )
-    sprayArgs.add_argument(
-        "-s", "--spray", help="Password spray a list of account names", action="store_true")
+
+    # Optional arguments
+    optionalArgs.add_argument("-t", "--timeout", help="Set pause time between password spraying attempts. Default - 2 seconds")
+    optionalArgs.add_argument("-v", "--verbose", help="Prints output verbosely", action="store_true")
+
+    # Required Enumeration Args
+    requiredArgs.add_argument("-a", "--account", help="AWS account to check for IAM users")
+    requiredArgs.add_argument("-rf", "--read", help="Reads usernames from a file to test")
+    requiredArgs.add_argument("-ak", "--accesskey", help="Access key for enumerating users")
+    requiredArgs.add_argument("-sk", "--secretkey", help="Secret key for enumerating users")
+
+    # SNS Args
+    snsArgs.add_argument("-sns", "--snsenum", help="Uses SNS policy modification for enumeration", action="store_true")
+    snsArgs.add_argument("-ta", "--topicarn", help="Topic Arn to modify")
+    snsArgs.add_argument("-r", "--region", help="Specify a region to use with SNS enumeration")
+
+    # IAM Args
+    iamArgs.add_argument("-i", "--iam", help="Uses IAM policy modification for enumeration", action="store_true")
+    iamArgs.add_argument("-rn", "--rolename", help="Role name to add to the assume policy document")
+
+    # S3 Args
+    s3Args.add_argument("-s3", "--s3enum", help="Uses s3 bucket policy modification for enumeration", action="store_true")
+    s3Args.add_argument("-b", "--bucket", help="Bucket name to use for s3 policy")
+
+    # Spray Args
+    sprayArgs.add_argument("-s", "--spray", help="Password spray a list of account names", action="store_true")
     sprayArgs.add_argument("-p", "--password", help="Password to spray")
-    # opt_parser.add_argument(
-    #     "-f", "--find", help="Find valid AWS IAM account names", action="store_true")
-    # opt_parser.add_argument(
-    #     "-t", "--timeout", help="Set pause time between password spraying attempts. Default - 2 seconds")
-    # opt_parser.add_argument(
-    #     "-v", "--verbose", help="Prints output verbosely", action="store_true"
-    # )
+
+    # SSH Spray Args
+    sshSprayArgs.add_argument("-ssh", "--ssh", help="Utilize SSH server to execute commands", action="store_true")
+    sshSprayArgs.add_argument("-k", "--keyfile", help="SSH id_rsa file to use for authenticating to EC2 instance")
+    sshSprayArgs.add_argument("-ip", "--ip", help="IP address of single EC2 instance to use for testing")
+    sshSprayArgs.add_argument("-if", "--ipfile", help="File containing EC2 instance IP addresses")
+    sshSprayArgs.add_argument("-port", "--port", help="Port address of SSH server to use for testing")
+    sshSprayArgs.add_argument("-u", "--username", help="Username to authenticate to EC2. Ubuntu is usually default")
+
     global args
     args = opt_parser.parse_args()
     if len(sys.argv) == 1:
@@ -111,6 +96,15 @@ if __name__ == "__main__":
         elif args.spray:
             if args.spray and args.password and args.account:
                 spray(args)
+            else:
+                print(
+                    'Parameters are missing from the command. Review the help menu and try again. Quitting...')
+                quit()
+        elif args.ssh:
+            if args.ssh and args.ip and args.port and args.username and args.keyfile:
+                ssh_spray(args)
+            elif args.ssh and args.ipfile and args.port and args.username and args.keyfile:
+                ssh_spray(args)
             else:
                 print(
                     'Parameters are missing from the command. Review the help menu and try again. Quitting...')
