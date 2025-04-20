@@ -142,7 +142,7 @@ Required flags for password spraying:
 - 
 To password spray, run the following:
 
-`python3 AWeSomeUserFinder.py --ssh -a <account_id> -p <password> -port <ssh_port> -u <ssh_username> -k <key_file> -if <ec2_ip_address_file> -rf <username_list>
+`python3 AWeSomeUserFinder.py --ssh -a <account_id> -p <password> -port <ssh_port> -u <ssh_username> -k <key_file> -if <ec2_ip_address_file> -rf <username_list>`
 
 The default time between spray attempts is set to two seconds to counter AWS from actively defending against the attack. Anything faster than two seconds will eventually result in error messaging.
 
