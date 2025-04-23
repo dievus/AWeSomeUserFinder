@@ -7,7 +7,7 @@ from functions.s3 import bucket_enum
 from functions.sns import sns_handler
 from functions.spray import spray
 from functions.ssh_spray import ssh_spray
-
+from functions.update import update_repo
 
 def options():
     opt_parser = argparse.ArgumentParser(
@@ -29,7 +29,7 @@ def options():
     # Optional arguments
     optionalArgs.add_argument("-t", "--timeout", help="Set pause time between password spraying attempts. Default - 2 seconds")
     optionalArgs.add_argument("-v", "--verbose", help="Prints output verbosely", action="store_true")
-
+    optionalArgs.add_argument("-up", "--update", help="Updates repo based on current version in Github", action="store_true")
     # Required Enumeration Args
     requiredArgs.add_argument("-a", "--account", help="AWS account to check for IAM users")
     requiredArgs.add_argument("-rf", "--read", help="Reads usernames from a file to test")
@@ -109,6 +109,8 @@ if __name__ == "__main__":
                 print(
                     'Parameters are missing from the command. Review the help menu and try again. Quitting...')
                 quit()
+        elif args.update:
+            update_repo()
     except KeyboardInterrupt:
         print('You either fat fingered this, or something else. Otherwise, quitting!')
         quit()
