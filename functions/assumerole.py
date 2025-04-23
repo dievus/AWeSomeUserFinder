@@ -2,7 +2,6 @@ import boto3
 import json
 import time
 import boto3.exceptions
-# testing
 from botocore.exceptions import (
     ClientError,
     EndpointConnectionError,
