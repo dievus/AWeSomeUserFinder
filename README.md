@@ -146,6 +146,9 @@ To password spray, run the following:
 
 The default time between spray attempts is set to two seconds to counter AWS from actively defending against the attack. Anything faster than two seconds will eventually result in error messaging.
 
+## Update AWeSomeUserFinder
+It is now possible to update AWeSomeUserFinder utilizing the tool itself using the `--update` flag.
+
 ## To Do
 
 - [X] Print to console output when account requires a password change on next login
